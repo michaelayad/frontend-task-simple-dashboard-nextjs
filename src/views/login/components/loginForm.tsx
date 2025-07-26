@@ -32,7 +32,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-50">
+    <div className="  overflow-y-scroll">
       <div className="w-full max-w-md space-y-6">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-primary">Login</h1>
