@@ -18,7 +18,7 @@ const Products = ({ products }: { products: Product[] }) => {
 
   return (
     <div className="h-full w-full p-4">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-6 flex-wrap">
         <h1 className="text-2xl font-bold text-primary ">Products</h1>
         <div className="flex flex-row gap-4 items-center">
           <div className="flex flex-row border rounded-md overflow-hidden">
