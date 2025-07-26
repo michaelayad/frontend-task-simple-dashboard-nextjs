@@ -1,9 +1,10 @@
+import { Suspense } from "react";
 import Login from "@/views/login";
 
-const LoginPage = () => {
+export default function LoginPage() {
   return (
-    <Login/>
+    <Suspense fallback={<div className="flex items-center justify-center h-screen">Loading login form...</div>}>
+      <Login />
+    </Suspense>
   );
-};
-
-export default LoginPage;
+}

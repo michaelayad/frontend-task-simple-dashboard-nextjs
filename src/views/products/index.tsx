@@ -10,6 +10,7 @@ import AddEditProductModal from "./components/addEditProductModal";
 const Products = ({ products }: { products: Product[] }) => {
   const [isList, setIsList] = useState(true);
   const [isAddedModalOpen, setIsAddedModalOpen] = useState(false);
+  const [productsList,setProductsList]=useState<Product[]>(products)
 
   const handleToggle = (value: boolean) => {
     setIsList(value);
@@ -64,14 +65,14 @@ const Products = ({ products }: { products: Product[] }) => {
 
       {products?.length > 0 ? (
         isList ? (
-          <ProductsList products={products} />
+          <ProductsList products={productsList} setProducts={setProductsList} />
         ) : (
-          <ProductsCard products={products} />
+          <ProductsCard products={productsList} setProducts={setProductsList} />
         )
       ) : (
         <p className="text-gray-500">No products available.</p>
       )}
-      <AddEditProductModal isOpen={isAddedModalOpen} setIsOpen={setIsAddedModalOpen}/>
+      <AddEditProductModal isOpen={isAddedModalOpen} setIsOpen={setIsAddedModalOpen} productsList={productsList} setProductsList={setProductsList}/>
     </div>
   );
 };

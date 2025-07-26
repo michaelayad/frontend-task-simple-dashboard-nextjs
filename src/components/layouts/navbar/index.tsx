@@ -7,7 +7,7 @@ import Link from "next/link";
 const NavBar = ({ toggleDrawer }: { toggleDrawer: () => void }) => {
 const {logout}=useLogout();
   return (
-    <div className="sticky top-0 w-full z-40 pt-4 px-4 backdrop-blur-xl">
+    <div className="sticky top-0 w-full z-[80] pt-4 px-4 backdrop-blur-xl">
         <div className=" flex items-center justify-between bg-primary-lightest rounded-2xl  p-4 ">
       <div className="flex gap-4">
         <button
@@ -18,7 +18,7 @@ const {logout}=useLogout();
         >
           <Icon name={"menu-line"} />
         </button>
-        <Link href="/" className="text-2xl font-bold text-primary cursor-pointer" >Dashboard</Link>
+        <Link href="/" className="lg:hidden text-2xl font-bold text-primary cursor-pointer" >Dashboard</Link>
       </div>
       <button onClick={logout} className="cursor-pointer">
         <Icon name={"logout"} />

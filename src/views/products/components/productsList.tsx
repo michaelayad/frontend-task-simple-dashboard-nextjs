@@ -1,9 +1,21 @@
 "use client";
+import Icon from "@/components/core/icon/icon";
 import { Product } from "@/types/product";
-import Image from "next/image"; // Import Next.js Image component
+import Image from "next/image";
+import AddEditProductModal from "./addEditProductModal";
 import { useState } from "react";
+import DeleteProductModal from "./deleteProductModal";
 
-const ProductsList = ({ products }: { products: Product[] }) => {
+const ProductsList = ({
+  products,
+  setProducts,
+}: {
+  products: Product[];
+  setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+}) => {
+  const [isEditedModalOpen, setIsEditedModalOpen] = useState(false);
+  const [productData, setProductData] = useState<Product>({} as Product);
+  const [isDeletedModalOpen, setIsDeletedModalOpen] = useState(false);
 
   return (
     <div className="overflow-x-auto">
@@ -31,10 +43,10 @@ const ProductsList = ({ products }: { products: Product[] }) => {
               <td className="p-3">
                 {product.image ? (
                   <Image
-                    src={product.image}
-                    alt={product.name}
-                    width={100} 
-                    height={100} 
+                    src={product.image as string}
+                    alt={product.name as string}
+                    width={100}
+                    height={100}
                     className="max-w-[100px] max-h-[100px] object-cover rounded"
                     loading="eager"
                   />
@@ -44,11 +56,23 @@ const ProductsList = ({ products }: { products: Product[] }) => {
               </td>
               <td className="p-3">
                 <div className="flex gap-2">
-                  <button className="text-primary hover:text-primary-darker">
-                    Edit
+                  <button
+                    className="text-primary hover:text-primary-darker cursor-pointer"
+                    onClick={() => {
+                      setIsEditedModalOpen(true);
+                      setProductData(product);
+                    }}
+                  >
+                    <Icon name="edit" />
                   </button>
-                  <button className="text-red-500 hover:text-red-700">
-                    Delete
+                  <button
+                    className="text-red-700 hover:text-red-900 cursor-pointer"
+                    onClick={() => {
+                      setIsDeletedModalOpen(true);
+                      setProductData(product);
+                    }}
+                  >
+                    <Icon name="delete" />
                   </button>
                 </div>
               </td>
@@ -56,6 +80,23 @@ const ProductsList = ({ products }: { products: Product[] }) => {
           ))}
         </tbody>
       </table>
+      <AddEditProductModal
+        isOpen={isEditedModalOpen}
+        setIsOpen={setIsEditedModalOpen}
+        editMode
+        productData={productData}
+        setProductData={setProductData}
+        productsList={products}
+        setProductsList={setProducts}
+      />
+      <DeleteProductModal
+        isOpen={isDeletedModalOpen}
+        setIsOpen={setIsDeletedModalOpen}
+        productData={productData}
+        setProductData={setProductData}
+        productsList={products}
+        setProductsList={setProducts}
+      />
     </div>
   );
 };

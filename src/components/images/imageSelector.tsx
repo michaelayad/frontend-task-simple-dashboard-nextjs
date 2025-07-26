@@ -1,11 +1,11 @@
 "use client";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 
 interface ImageSelectorProps {
-  initialImage?: string ; 
-  onImageChange: (image: string | File | null) => void; 
+  initialImage?: string;
+  onImageChange: (image: string | File | null) => void;
   className?: string;
   label?: string;
 }
@@ -21,6 +21,11 @@ const ImageSelector = ({
   );
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    if (initialImage) {
+      setSelectedImage(initialImage);
+    }
+  }, [initialImage]);
   const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -28,7 +33,7 @@ const ImageSelector = ({
       reader.onloadend = () => {
         const imageData = reader.result as string;
         setSelectedImage(imageData);
-        onImageChange(file);
+        onImageChange(imageData);
       };
       reader.readAsDataURL(file);
     } else {

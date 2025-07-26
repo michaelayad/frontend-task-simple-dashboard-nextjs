@@ -1,4 +1,4 @@
-// app/dashboard/page.js
+import { ApiServices } from "@/services";
 import Products from "@/views/products";
 import { Suspense } from "react";
 
@@ -14,25 +14,25 @@ function DashboardLoading() {
 }
 
 async function ProductsPage() {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
 
-  const res = await fetch("https://62fb62afe4bcaf5351837ac1.mockapi.io/product", {
-    cache: "no-store", 
-  });
+  try {
+    const data = await ApiServices.fetchProducts();
 
-  if (!res.ok) {
-    return <div>
-      <h1>Failed to fetch Products data</h1>
-    </div>
+    return <Products products={data} />;
+  } catch (error) {
+    console.error("Fetch error:", error);
+    return (
+      <div className="p-4 text-center">
+        <h1 className="text-2xl font-bold text-red-600 mb-2">Error</h1>
+        <p className="text-gray-600">
+          Failed to load products. Please try again later or check your network.
+        </p>
+      </div>
+    );
   }
-
-  const data = await res.json();
-
-  return (
-    <Products products={data} />
-  );
 }
 
+export const dynamic = "force-dynamic";
 export default function Page() {
   return (
     <Suspense fallback={<DashboardLoading />}>

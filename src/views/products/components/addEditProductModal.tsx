@@ -3,7 +3,7 @@ import TextField from "@/components/core/inputs/textField";
 import ImageSelector from "@/components/images/imageSelector";
 import Modal from "@/components/modal";
 import { Product } from "@/types/product";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const AddEditProductModal = ({
   isOpen,
@@ -11,12 +11,16 @@ const AddEditProductModal = ({
   editMode = false,
   productData,
   setProductData,
+  productsList,
+  setProductsList,
 }: {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   editMode?: boolean;
   productData?: Product;
   setProductData?: React.Dispatch<React.SetStateAction<Product>>;
+  productsList?: Product[];
+  setProductsList?: React.Dispatch<React.SetStateAction<Product[]>>;
 }) => {
   const [formData, setFormData] = useState<Product>({
     name: "",
@@ -39,10 +43,37 @@ const AddEditProductModal = ({
     } as Product);
   };
 
+  useEffect(() => {
+    if(!productData) return
+    setFormData(productData as Product)
+  },[productData])
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log("Form submitted:", formData);
+    if (editMode) {
+      if (setProductData && setProductsList) {
+        setProductData({ ...formData, id: productData?.id });
+        setProductsList(
+          productsList?.map((product) => {
+            if (product.id === productData?.id) {
+              return { ...product, ...formData };
+            }
+            return product;
+          }) as Product[]
+        );
+      }
+    } else {
+      if (setProductsList) {
+        const newProductsList = productsList;
+
+        newProductsList?.push({ ...formData, id: `${new Date().getTime()}` });
+
+        setProductsList(newProductsList as Product[]);
+      }
+    }
+
+    handleClose()
   };
 
   return (
@@ -74,6 +105,8 @@ const AddEditProductModal = ({
             type="number"
             name="price"
             label="Price"
+            step={0.01}
+            min={0}
             value={formData.price}
             onChange={(e) =>
               setFormData({ ...formData, price: parseInt(e.target.value) })
@@ -93,7 +126,7 @@ const AddEditProductModal = ({
         <ImageSelector
           initialImage={formData?.image as string}
           onImageChange={(imageData) => {
-            setFormData({ ...formData, image: imageData });
+            setFormData({ ...formData, image: imageData as string });
           }}
         />
         <button

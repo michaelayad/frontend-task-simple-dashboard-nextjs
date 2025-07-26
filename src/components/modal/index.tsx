@@ -39,7 +39,7 @@ const Modal = ({
   return (
     <div
       className={clsx(
-        "fixed inset-0 z-50",
+        "fixed inset-0 z-[1000]",
         isOpen ? "flex items-center justify-center bg-primary/50 backdrop-blur-md" : "hidden"
       )}
       onClick={handleOverlayClick}

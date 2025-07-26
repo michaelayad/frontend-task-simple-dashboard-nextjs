@@ -1,7 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import clsx from "clsx";
-import Image from "next/image";
-import Link from "next/link";
+
 import LoginForm from "./components/loginForm";
 export default function Login() {
   return (

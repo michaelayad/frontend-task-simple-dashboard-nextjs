@@ -24,7 +24,7 @@ const Sidebar = ({ isDrawerOpen  = false, setIsDrawerOpen  }: { isDrawerOpen: bo
     <>
       <div
         className={clsx(
-          "bg-primary-lightest p-4 flex flex-col gap-6 transition-transform duration-300 z-40",
+          "bg-primary-lightest p-4 flex flex-col gap-6 transition-transform duration-300 z-[100]",
           "w-64 h-full",
           {
             fixed: true,
@@ -71,7 +71,7 @@ const Sidebar = ({ isDrawerOpen  = false, setIsDrawerOpen  }: { isDrawerOpen: bo
 
       {isDrawerOpen && (
         <div
-          className="fixed lg:hidden inset-0 bg-black/50 z-30"
+          className="fixed lg:hidden inset-0 bg-black/50 z-[90]"
           onClick={toggleDrawer}
         />
       )}
